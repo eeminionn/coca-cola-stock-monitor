@@ -359,8 +359,8 @@ def send_email(subject: str, body: str) -> None:
     from_email = os.getenv("ALERT_EMAIL_FROM", "").strip() or os.getenv("SMTP_USERNAME", "").strip()
     username = os.getenv("SMTP_USERNAME", "").strip()
     password = os.getenv("SMTP_PASSWORD", "").strip()
-    host = os.getenv("SMTP_HOST", "smtp.gmail.com").strip()
-    port = int(os.getenv("SMTP_PORT", "465"))
+    host = os.getenv("SMTP_HOST", "").strip() or "smtp.gmail.com"
+    port = int(os.getenv("SMTP_PORT", "").strip() or "465")
 
     missing = [
         name

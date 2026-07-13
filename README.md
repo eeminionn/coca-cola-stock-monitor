@@ -24,9 +24,6 @@ El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. L
 | `ALERT_EMAIL_FROM` | Email remitente, normalmente tu Gmail |
 | `SMTP_USERNAME` | Tu Gmail completo |
 | `SMTP_PASSWORD` | App password de Gmail, no tu password normal |
-| `SMTP_HOST` | `smtp.gmail.com` |
-| `SMTP_PORT` | `465` |
-
 Para Gmail necesitas activar verificación en dos pasos y crear una "App password" en tu cuenta Google. Esa clave es la que va en `SMTP_PASSWORD`.
 
 ## Cómo probar

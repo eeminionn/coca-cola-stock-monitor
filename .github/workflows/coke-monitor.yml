@@ -29,9 +29,9 @@ jobs:
         env:
           ALERT_EMAIL_FROM: ${{ secrets.ALERT_EMAIL_FROM }}
           ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_HOST: "smtp.gmail.com"
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_PORT: "465"
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           TARGET_URL: "https://andina.micoca-cola.cl/laminas-coleccionables-mundial-fifa-2026"
           SEARCH_TERMS: "sobres mundial,láminas mundial,laminas mundial,sobres coca cola,láminas coca cola,set laminas,mundial fifa 2026"
