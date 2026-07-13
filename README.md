@@ -26,6 +26,8 @@ El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. L
 | `SMTP_PASSWORD` | App password de Gmail, no tu password normal |
 Para Gmail necesitas activar verificación en dos pasos y crear una "App password" en tu cuenta Google. Esa clave es la que va en `SMTP_PASSWORD`.
 
+Mientras esos secrets no estén configurados, el workflow usa un respaldo: si detecta un cambio real, abre un GitHub Issue en el repo con el detalle de la alerta. Si tienes notificaciones de GitHub activas, eso también debería llegarte por correo.
+
 ## Cómo probar
 
 En GitHub puedes ir a `Actions` -> `Coca-Cola stock monitor` -> `Run workflow`.

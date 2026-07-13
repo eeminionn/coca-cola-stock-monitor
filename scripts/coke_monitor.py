@@ -390,6 +390,41 @@ def send_email(subject: str, body: str) -> None:
         smtp.send_message(message)
 
 
+def create_github_issue(title: str, body: str) -> str:
+    token = os.getenv("GITHUB_TOKEN", "").strip()
+    repository = os.getenv("GITHUB_REPOSITORY", "").strip()
+    if not token or not repository:
+        raise RuntimeError("No pude crear issue porque faltan GITHUB_TOKEN o GITHUB_REPOSITORY")
+
+    payload = json.dumps(
+        {
+            "title": title,
+            "body": body,
+            "labels": ["stock-alert"],
+        },
+        ensure_ascii=False,
+    ).encode("utf-8")
+    request = Request(
+        f"https://api.github.com/repos/{repository}/issues",
+        data=payload,
+        method="POST",
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json; charset=utf-8",
+            "User-Agent": "CocaColaStockMonitor/1.0",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    with urlopen(request, timeout=30) as response:
+        data = json.loads(response.read().decode("utf-8"))
+        return str(data.get("html_url", ""))
+
+
+def fallback_issue_enabled() -> bool:
+    return os.getenv("ALERT_FALLBACK_ISSUE", "true").lower() in {"1", "true", "yes"}
+
+
 def main() -> int:
     state_path = Path(os.getenv("STATE_FILE", ".monitor/state.json"))
     keywords = getenv_list("KEYWORDS", DEFAULT_KEYWORDS)
@@ -457,9 +492,15 @@ def main() -> int:
         body = build_alert(new_products, availability_changes, page_changes, errors)
         subject = os.getenv("EMAIL_SUBJECT", "Alerta miCoca-Cola: cambio en láminas/sobres Mundial")
         print("\n--- ALERT BODY ---\n" + body)
-        send_email(subject, body)
+        try:
+            send_email(subject, body)
+            print("Email enviado.")
+        except Exception as exc:
+            if not fallback_issue_enabled():
+                raise
+            issue_url = create_github_issue(subject, body)
+            print(f"No pude enviar email ({exc}). Creé issue de alerta: {issue_url}")
         save_state(state_path, next_state)
-        print("Email enviado.")
     elif reset_baseline:
         save_state(state_path, next_state)
         print("Línea base reseteada, sin email.")

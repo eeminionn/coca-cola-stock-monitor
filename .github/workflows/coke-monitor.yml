@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: coca-cola-stock-monitor
@@ -29,6 +30,8 @@ jobs:
         env:
           ALERT_EMAIL_FROM: ${{ secrets.ALERT_EMAIL_FROM }}
           ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+          ALERT_FALLBACK_ISSUE: "true"
+          GITHUB_TOKEN: ${{ github.token }}
           SMTP_HOST: "smtp.gmail.com"
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_PORT: "465"
