@@ -24,9 +24,16 @@ El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. L
 | `ALERT_EMAIL_FROM` | Email remitente, normalmente tu Gmail |
 | `SMTP_USERNAME` | Tu Gmail completo |
 | `SMTP_PASSWORD` | App password de Gmail, no tu password normal |
+
 Para Gmail necesitas activar verificación en dos pasos y crear una "App password" en tu cuenta Google. Esa clave es la que va en `SMTP_PASSWORD`.
 
 Mientras esos secrets no estén configurados, el workflow usa un respaldo: si detecta un cambio real, abre un GitHub Issue en el repo con el detalle de la alerta. Si tienes notificaciones de GitHub activas, eso también debería llegarte por correo.
+
+También puedes cargar los secrets con el helper local, que no guarda la App Password en archivos:
+
+```bash
+bash scripts/configure_gmail_secrets.sh
+```
 
 ## Cómo probar
 
@@ -48,6 +55,12 @@ Si cambias filtros o URLs y quieres guardar una nueva línea base sin mandar cor
 
 ```bash
 RESET_BASELINE=true python scripts/coke_monitor.py
+```
+
+Después de cargar los secrets, puedes disparar una corrida manual desde terminal:
+
+```bash
+gh workflow run "Coca-Cola stock monitor" --repo eeminionn/coca-cola-stock-monitor
 ```
 
 ## Notas
