@@ -35,7 +35,8 @@ DEFAULT_SEARCH_TERMS = [
     "sobres coca cola",
     "láminas coca cola",
     "set laminas",
-    "mundial fifa 2026",
+    "pack fifa mundial",
+    "pack laminas",
 ]
 
 DEFAULT_PAGE_URLS = [
@@ -51,12 +52,13 @@ DEFAULT_KEYWORDS = [
     "lámina",
     "laminas",
     "láminas",
-    "sobre",
     "sobres",
     "album",
     "álbum",
-    "mundial",
-    "fifa",
+    "mundial 2026",
+    "fifa 2026",
+    "mundial fifa",
+    "latas coleccionables",
     "figurita",
     "figuritas",
     "sticker",
@@ -190,7 +192,6 @@ def product_matches(product: dict[str, Any], keywords: list[str]) -> bool:
         str(product.get("productName", "")),
         str(product.get("productTitle", "")),
         str(product.get("metaTagDescription", "")),
-        str(product.get("description", "")),
     ]
     for item in product.get("items", []) or []:
         text_parts.append(str(item.get("nameComplete", "")))
@@ -402,6 +403,7 @@ def main() -> int:
     previous_products = state.get("products", {})
     previous_pages = state.get("pages", {})
     first_run = not bool(state)
+    reset_baseline = os.getenv("RESET_BASELINE", "").lower() in {"1", "true", "yes"}
 
     products, product_errors = collect_products(search_terms, keywords)
     pages, page_errors = collect_pages(page_urls, keywords)
@@ -425,10 +427,12 @@ def main() -> int:
             page_changes.append((url, current))
 
     should_alert = bool(new_products or availability_changes or page_changes)
+    if reset_baseline:
+        should_alert = False
     if first_run and os.getenv("ALERT_ON_FIRST_RUN", "").lower() not in {"1", "true", "yes"}:
         should_alert = False
 
-    state = {
+    next_state = {
         "target_url": target_url,
         "search_terms": search_terms,
         "page_urls": page_urls,
@@ -436,7 +440,6 @@ def main() -> int:
         "products": current_products,
         "pages": pages,
     }
-    save_state(state_path, state)
 
     summary = {
         "first_run": first_run,
@@ -446,6 +449,7 @@ def main() -> int:
         "page_changes": len(page_changes),
         "errors": len(errors),
         "state_file": str(state_path),
+        "reset_baseline": reset_baseline,
     }
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
@@ -454,10 +458,16 @@ def main() -> int:
         subject = os.getenv("EMAIL_SUBJECT", "Alerta miCoca-Cola: cambio en láminas/sobres Mundial")
         print("\n--- ALERT BODY ---\n" + body)
         send_email(subject, body)
+        save_state(state_path, next_state)
         print("Email enviado.")
+    elif reset_baseline:
+        save_state(state_path, next_state)
+        print("Línea base reseteada, sin email.")
     elif first_run:
+        save_state(state_path, next_state)
         print("Primera corrida: línea base guardada, sin email.")
     else:
+        save_state(state_path, next_state)
         print("Sin cambios relevantes.")
 
     if errors and not current_products and not pages:

@@ -34,7 +34,7 @@ jobs:
           SMTP_PORT: "465"
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           TARGET_URL: "https://andina.micoca-cola.cl/laminas-coleccionables-mundial-fifa-2026"
-          SEARCH_TERMS: "sobres mundial,láminas mundial,laminas mundial,sobres coca cola,láminas coca cola,set laminas,mundial fifa 2026"
+          SEARCH_TERMS: "sobres mundial,láminas mundial,laminas mundial,sobres coca cola,láminas coca cola,set laminas,pack fifa mundial,pack laminas"
           PAGE_URLS: "https://andina.micoca-cola.cl/laminas-coleccionables-mundial-fifa-2026,https://andina.micoca-cola.cl/mundial-2026,https://andina.micoca-cola.cl/mundial-fifa-2026,https://andina.micoca-cola.cl/sobres%20mundial?map=ft&_q=sobres%20mundial,https://andina.micoca-cola.cl/l%C3%A1minas%20mundial?map=ft&_q=l%C3%A1minas%20mundial"
         run: python scripts/coke_monitor.py
 

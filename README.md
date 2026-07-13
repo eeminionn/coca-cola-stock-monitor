@@ -9,7 +9,7 @@ El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. L
 - `https://andina.micoca-cola.cl/laminas-coleccionables-mundial-fifa-2026`
 - `https://andina.micoca-cola.cl/mundial-2026`
 - `https://andina.micoca-cola.cl/mundial-fifa-2026`
-- Búsquedas públicas como `sobres mundial`, `láminas mundial`, `set laminas` y `mundial fifa 2026`
+- Búsquedas públicas como `sobres mundial`, `láminas mundial`, `set laminas`, `pack fifa mundial` y `pack laminas`
 - API pública de catálogo VTEX para detectar productos, SKU, precio y disponibilidad
 
 ## Configuración en GitHub
@@ -40,6 +40,12 @@ La primera ejecución no manda correo por defecto. Si quieres forzar alerta en l
 
 ```bash
 ALERT_ON_FIRST_RUN=true python scripts/coke_monitor.py
+```
+
+Si cambias filtros o URLs y quieres guardar una nueva línea base sin mandar correo:
+
+```bash
+RESET_BASELINE=true python scripts/coke_monitor.py
 ```
 
 ## Notas
