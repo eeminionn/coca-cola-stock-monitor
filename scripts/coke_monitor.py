@@ -429,14 +429,12 @@ def main() -> int:
         should_alert = False
 
     state = {
-        "last_checked_utc": datetime.now(timezone.utc).isoformat(),
         "target_url": target_url,
         "search_terms": search_terms,
         "page_urls": page_urls,
         "keywords": keywords,
         "products": current_products,
         "pages": pages,
-        "errors": errors[-20:],
     }
     save_state(state_path, state)
 

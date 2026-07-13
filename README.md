@@ -2,7 +2,7 @@
 
 Monitor para revisar la página de láminas/sobres del Mundial 2026 en miCoca-Cola.cl y mandar un correo cuando aparezcan cambios relevantes o productos nuevos.
 
-El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. La primera ejecución guarda una línea base en `.monitor/state.json`; desde la segunda ejecución avisa si detecta productos nuevos, SKUs que pasen a disponibles o cambios relevantes en las páginas públicas revisadas.
+El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos. La primera ejecución guarda una línea base en `.monitor/state.json`; desde la segunda ejecución avisa si detecta productos nuevos, SKUs que pasen a disponibles o cambios relevantes en las páginas públicas revisadas. El workflow solo commitea estado cuando esa línea base cambia.
 
 ## Qué revisa
 
