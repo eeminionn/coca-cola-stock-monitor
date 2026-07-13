@@ -2,7 +2,7 @@
 
 Monitor para revisar la página de láminas/sobres del Mundial 2026 en miCoca-Cola.cl y mandar un correo cuando aparezcan cambios relevantes o productos nuevos.
 
-El proyecto está pensado para correr gratis en GitHub Actions cada 30 minutos en un repo privado. La primera ejecución guarda una línea base en `.monitor/state.json`; desde la segunda ejecución avisa si detecta productos nuevos, SKUs que pasen a disponibles o cambios relevantes en las páginas públicas revisadas. El workflow solo commitea estado cuando esa línea base cambia.
+El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos en un repo público. La primera ejecución guarda una línea base en `.monitor/state.json`; desde la segunda ejecución avisa si detecta productos nuevos, SKUs que pasen a disponibles o cambios relevantes en las páginas públicas revisadas. El workflow solo commitea estado cuando esa línea base cambia.
 
 ## Qué revisa
 
@@ -63,6 +63,12 @@ Después de cargar los secrets, puedes disparar una corrida manual desde termina
 gh workflow run "Coca-Cola stock monitor" --repo eeminionn/coca-cola-stock-monitor
 ```
 
+Para enviar un correo de prueba:
+
+```bash
+gh workflow run "Coca-Cola stock monitor" --repo eeminionn/coca-cola-stock-monitor -f send_test_email=true
+```
+
 ## Notas
 
-GitHub Actions no garantiza ejecución exacta al minuto. El cron `*/30 * * * *` usa un margen razonable para cuentas gratuitas con repos privados. El monitor revisa rutas públicas y no intenta saltarse controles de compra, stock ni zona del sitio.
+GitHub Actions no garantiza ejecución exacta al minuto. En repos públicos, los runners estándar de GitHub-hosted Actions son gratis; por eso el cron queda en `*/5 * * * *`. El monitor revisa rutas públicas y no intenta saltarse controles de compra, stock ni zona del sitio.

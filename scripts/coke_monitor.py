@@ -425,6 +425,10 @@ def fallback_issue_enabled() -> bool:
     return os.getenv("ALERT_FALLBACK_ISSUE", "true").lower() in {"1", "true", "yes"}
 
 
+def test_email_enabled() -> bool:
+    return os.getenv("SEND_TEST_EMAIL", "").lower() in {"1", "true", "yes"}
+
+
 def main() -> int:
     state_path = Path(os.getenv("STATE_FILE", ".monitor/state.json"))
     keywords = getenv_list("KEYWORDS", DEFAULT_KEYWORDS)
@@ -433,6 +437,17 @@ def main() -> int:
     target_url = os.getenv("TARGET_URL", DEFAULT_TARGET_URL).strip()
     if target_url and target_url not in page_urls:
         page_urls.insert(0, target_url)
+
+    if test_email_enabled():
+        subject = os.getenv("EMAIL_SUBJECT", "Prueba miCoca-Cola monitor")
+        body = (
+            "Prueba OK del monitor miCoca-Cola.\n\n"
+            "Si recibiste este correo, GitHub Actions puede enviar alertas por Gmail.\n\n"
+            f"Revisión UTC: {datetime.now(timezone.utc).isoformat()}"
+        )
+        send_email(subject, body)
+        print("Email de prueba enviado.")
+        return 0
 
     state = load_state(state_path)
     previous_products = state.get("products", {})

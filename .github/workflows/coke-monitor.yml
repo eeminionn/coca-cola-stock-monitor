@@ -2,8 +2,14 @@ name: Coca-Cola stock monitor
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      send_test_email:
+        description: "Enviar un correo de prueba"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -32,6 +38,7 @@ jobs:
           ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
           ALERT_FALLBACK_ISSUE: "true"
           GITHUB_TOKEN: ${{ github.token }}
+          SEND_TEST_EMAIL: ${{ inputs.send_test_email || 'false' }}
           SMTP_HOST: "smtp.gmail.com"
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_PORT: "465"
