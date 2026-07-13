@@ -17,6 +17,7 @@ read -r -p "Gmail remitente (SMTP_USERNAME / ALERT_EMAIL_FROM): " gmail_from
 read -r -p "Email destinatario de alertas (ALERT_EMAIL_TO): " alert_to
 read -r -s -p "App Password de Gmail (no tu clave normal): " gmail_app_password
 echo
+gmail_app_password="${gmail_app_password//[[:space:]]/}"
 
 if [[ -z "$gmail_from" || -z "$alert_to" || -z "$gmail_app_password" ]]; then
   echo "Error: todos los campos son obligatorios." >&2
