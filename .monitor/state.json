@@ -129,12 +129,12 @@
       "url": "https://andina.micoca-cola.cl/vasos-coca-cola-mundial-6-x-450-ml/p"
     },
     "3397:3971": {
-      "available": true,
+      "available": false,
       "key": "3397:3971",
       "name": "Coca-Cola Zero Azúcar 6 x 350 ml + Pelota Adidas",
-      "price": 25990.0,
+      "price": 30990.0,
       "product_id": "3397",
-      "quantity": 99999,
+      "quantity": 0,
       "sku": "3971",
       "source_terms": [
         "pack fifa mundial"
