@@ -106,7 +106,7 @@
       "name": "2 Vasos Coca-Cola Mundial 2026",
       "price": 3990.0,
       "product_id": "3343",
-      "quantity": 10,
+      "quantity": 99999,
       "sku": "3917",
       "source_terms": [
         "láminas coca cola",
@@ -121,7 +121,7 @@
       "name": "Vasos Coca-Cola Mundial 6 x 450 ml.",
       "price": 11290.0,
       "product_id": "3376",
-      "quantity": 100,
+      "quantity": 99999,
       "sku": "3950",
       "source_terms": [
         "pack fifa mundial"
@@ -134,7 +134,7 @@
       "name": "Coca-Cola Zero Azúcar 6 x 350 ml + Pelota Adidas",
       "price": 25990.0,
       "product_id": "3397",
-      "quantity": 100,
+      "quantity": 99999,
       "sku": "3971",
       "source_terms": [
         "pack fifa mundial"
