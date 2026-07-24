@@ -87,19 +87,59 @@
     }
   },
   "products": {
+    "2370:2830": {
+      "available": true,
+      "key": "2370:2830",
+      "name": "Coca-Cola Zero Azúcar 6 x 473 ml (diseño aleatorio)",
+      "price": 4990.0,
+      "product_id": "2370",
+      "quantity": 99999,
+      "sku": "2830",
+      "source_terms": [
+        "pack fifa mundial"
+      ],
+      "url": "https://andina.micoca-cola.cl/coca-cola-zero-azucar-6-x-473-ml--diseno-aleatorio-/p"
+    },
     "3343:3917": {
       "available": true,
       "key": "3343:3917",
       "name": "2 Vasos Coca-Cola Mundial 2026",
       "price": 3990.0,
       "product_id": "3343",
-      "quantity": 99999,
+      "quantity": 10,
       "sku": "3917",
       "source_terms": [
         "láminas coca cola",
+        "pack fifa mundial",
         "sobres coca cola"
       ],
       "url": "https://andina.micoca-cola.cl/2-vasos-coca-cola-mundial-2026/p"
+    },
+    "3376:3950": {
+      "available": true,
+      "key": "3376:3950",
+      "name": "Vasos Coca-Cola Mundial 6 x 450 ml.",
+      "price": 11290.0,
+      "product_id": "3376",
+      "quantity": 100,
+      "sku": "3950",
+      "source_terms": [
+        "pack fifa mundial"
+      ],
+      "url": "https://andina.micoca-cola.cl/vasos-coca-cola-mundial-6-x-450-ml/p"
+    },
+    "3397:3971": {
+      "available": true,
+      "key": "3397:3971",
+      "name": "Coca-Cola Zero Azúcar 6 x 350 ml + Pelota Adidas",
+      "price": 25990.0,
+      "product_id": "3397",
+      "quantity": 100,
+      "sku": "3971",
+      "source_terms": [
+        "pack fifa mundial"
+      ],
+      "url": "https://andina.micoca-cola.cl/coca-cola-zero-azucar-6-x-350-ml---pelota-adidas/p"
     }
   },
   "search_terms": [
