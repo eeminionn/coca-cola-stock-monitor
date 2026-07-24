@@ -27,7 +27,11 @@ El proyecto está pensado para correr gratis en GitHub Actions cada 5 minutos en
 
 Para Gmail necesitas activar verificación en dos pasos y crear una "App password" en tu cuenta Google. Esa clave es la que va en `SMTP_PASSWORD`.
 
-Mientras esos secrets no estén configurados, el workflow usa un respaldo: si detecta un cambio real, abre un GitHub Issue en el repo con el detalle de la alerta. Si tienes notificaciones de GitHub activas, eso también debería llegarte por correo.
+Mientras esos secrets no estén configurados, el workflow usa un respaldo: si
+detecta un cambio real, abre un GitHub Issue en el repo con el detalle de la
+alerta. Intenta usar la etiqueta `stock-alert`; si la etiqueta no existe,
+reintenta sin etiqueta para no perder la notificación. Si tienes notificaciones
+de GitHub activas, eso también debería llegarte por correo.
 
 También puedes cargar los secrets con el helper local, que no guarda la App Password en archivos:
 

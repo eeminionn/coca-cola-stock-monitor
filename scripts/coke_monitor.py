@@ -390,20 +390,18 @@ def send_email(subject: str, body: str) -> None:
         smtp.send_message(message)
 
 
-def create_github_issue(title: str, body: str) -> str:
-    token = os.getenv("GITHUB_TOKEN", "").strip()
-    repository = os.getenv("GITHUB_REPOSITORY", "").strip()
-    if not token or not repository:
-        raise RuntimeError("No pude crear issue porque faltan GITHUB_TOKEN o GITHUB_REPOSITORY")
+def post_github_issue(
+    token: str,
+    repository: str,
+    title: str,
+    body: str,
+    labels: list[str] | None,
+) -> str:
+    issue = {"title": title, "body": body}
+    if labels:
+        issue["labels"] = labels
 
-    payload = json.dumps(
-        {
-            "title": title,
-            "body": body,
-            "labels": ["stock-alert"],
-        },
-        ensure_ascii=False,
-    ).encode("utf-8")
+    payload = json.dumps(issue, ensure_ascii=False).encode("utf-8")
     request = Request(
         f"https://api.github.com/repos/{repository}/issues",
         data=payload,
@@ -419,6 +417,31 @@ def create_github_issue(title: str, body: str) -> str:
     with urlopen(request, timeout=30) as response:
         data = json.loads(response.read().decode("utf-8"))
         return str(data.get("html_url", ""))
+
+
+def create_github_issue(title: str, body: str) -> str:
+    token = os.getenv("GITHUB_TOKEN", "").strip()
+    repository = os.getenv("GITHUB_REPOSITORY", "").strip()
+    if not token or not repository:
+        raise RuntimeError("No pude crear issue porque faltan GITHUB_TOKEN o GITHUB_REPOSITORY")
+
+    try:
+        return post_github_issue(
+            token,
+            repository,
+            title,
+            body,
+            labels=["stock-alert"],
+        )
+    except HTTPError as exc:
+        if exc.code != 422:
+            raise
+        print(
+            "La etiqueta stock-alert no está disponible; "
+            "reintentando el issue sin etiqueta.",
+            file=sys.stderr,
+        )
+        return post_github_issue(token, repository, title, body, labels=None)
 
 
 def fallback_issue_enabled() -> bool:
