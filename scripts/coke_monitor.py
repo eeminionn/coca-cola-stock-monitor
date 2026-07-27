@@ -448,6 +448,34 @@ def fallback_issue_enabled() -> bool:
     return os.getenv("ALERT_FALLBACK_ISSUE", "true").lower() in {"1", "true", "yes"}
 
 
+def detect_changes(
+    previous_products: dict[str, dict[str, Any]],
+    previous_pages: dict[str, dict[str, Any]],
+    current_products: dict[str, dict[str, Any]],
+    current_pages: dict[str, dict[str, Any]],
+) -> tuple[
+    list[dict[str, Any]],
+    list[tuple[dict[str, Any], dict[str, Any]]],
+    list[tuple[str, dict[str, Any]]],
+]:
+    new_products = [
+        product for key, product in current_products.items() if key not in previous_products
+    ]
+    availability_changes = []
+    for key, current in current_products.items():
+        previous = previous_products.get(key)
+        if previous and not previous.get("available") and current.get("available"):
+            availability_changes.append((previous, current))
+
+    page_changes = []
+    for url, current in current_pages.items():
+        previous = previous_pages.get(url)
+        if previous and previous.get("digest") != current.get("digest"):
+            page_changes.append((url, current))
+
+    return new_products, availability_changes, page_changes
+
+
 def test_email_enabled() -> bool:
     return os.getenv("SEND_TEST_EMAIL", "").lower() in {"1", "true", "yes"}
 
@@ -484,20 +512,12 @@ def main() -> int:
 
     current_products = {key: product.as_dict() for key, product in sorted(products.items())}
 
-    new_products = [
-        product for key, product in current_products.items() if key not in previous_products
-    ]
-    availability_changes = []
-    for key, current in current_products.items():
-        previous = previous_products.get(key)
-        if previous and not previous.get("available") and current.get("available"):
-            availability_changes.append((previous, current))
-
-    page_changes = []
-    for url, current in pages.items():
-        previous = previous_pages.get(url)
-        if previous and previous.get("digest") != current.get("digest"):
-            page_changes.append((url, current))
+    new_products, availability_changes, page_changes = detect_changes(
+        previous_products,
+        previous_pages,
+        current_products,
+        pages,
+    )
 
     should_alert = bool(new_products or availability_changes or page_changes)
     if reset_baseline:
